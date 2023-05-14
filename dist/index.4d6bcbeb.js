@@ -769,7 +769,7 @@ class TheHeader extends (0, _saha.Component) {
 }
 exports.default = TheHeader;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../core/SAHA":"OS5mO"}],"b3x3c":[function(require,module,exports) {
+},{"../core/SAHA":"OS5mO","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"b3x3c":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _saha = require("../core/SAHA");
@@ -798,7 +798,7 @@ class TheFooter extends (0, _saha.Component) {
 }
 exports.default = TheFooter;
 
-},{"../core/SAHA":"OS5mO","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/about":"4RAJO"}],"4RAJO":[function(require,module,exports) {
+},{"../core/SAHA":"OS5mO","../store/about":"4RAJO","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4RAJO":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _saha = require("../core/SAHA");
@@ -929,14 +929,13 @@ parcelHelpers.export(exports, "searchMovies", ()=>searchMovies);
 parcelHelpers.export(exports, "getMovieDetails", ()=>getMovieDetails);
 var _saha = require("../core/SAHA");
 const store = new (0, _saha.Store)({
-    //데이터들
     searchText: "",
     page: 1,
     pageMax: 1,
     movies: [],
     movie: {},
     loading: false,
-    message: "Search for the movie title"
+    message: "Search for the movie title!"
 });
 exports.default = store;
 const searchMovies = async (page)=>{
@@ -948,7 +947,14 @@ const searchMovies = async (page)=>{
     }
     try {
         const res = await fetch(`https://omdbapi.com?apikey=7035c60c&s=${store.state.searchText}&page=${page}`);
-        const { Search , totalResults , Response , Error  } = await res.json();
+        //  const res = await fetch('/api/movie', {
+        //   method: 'POST',
+        //   body: JSON.stringify({
+        //     title: store.state.searchText,
+        //     page
+        //   })
+        // })
+        const { Response , Search , totalResults , Error  } = await res.json();
         if (Response === "True") {
             store.state.movies = [
                 ...store.state.movies,
@@ -960,7 +966,7 @@ const searchMovies = async (page)=>{
             store.state.pageMax = 1;
         }
     } catch (error) {
-        console.log("searchMovies error", error);
+        console.log("searchMovies error:", error);
     } finally{
         store.state.loading = false;
     }
@@ -968,9 +974,15 @@ const searchMovies = async (page)=>{
 const getMovieDetails = async (id)=>{
     try {
         const res = await fetch(`https://omdbapi.com?apikey=7035c60c&i=${id}&plot=full`);
+        // const res = await fetch('/api/movie', {
+        //   method: 'POST',
+        //   body: JSON.stringify({
+        //     id
+        //   })
+        // })
         store.state.movie = await res.json();
     } catch (error) {
-        console.log("getMovieDetails error", error);
+        console.log("getMovieDetails error:", error);
     }
 };
 
@@ -1012,7 +1024,7 @@ class MovieList extends (0, _saha.Component) {
 }
 exports.default = MovieList;
 
-},{"../core/SAHA":"OS5mO","../store/movie":"kq1bo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./MovieItem":"fAzE8"}],"fAzE8":[function(require,module,exports) {
+},{"../core/SAHA":"OS5mO","../store/movie":"kq1bo","./MovieItem":"fAzE8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fAzE8":[function(require,module,exports) {
 //영화아이템(포스터, 출시연도, 제목) 컴포넌트
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
